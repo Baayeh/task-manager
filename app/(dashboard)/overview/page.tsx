@@ -1,6 +1,7 @@
 import '@styles/overview.scss';
 import { Metadata } from 'next';
 import OverviewHeader from './components/OverviewHeader';
+import Statistics from './components/Statistics';
 import TaskSummary from './components/TaskSummary';
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ const Overview = () => {
         <div className="col-span-4">
           <div>Statistics</div>
           <div>Project Summary</div>
+          <Statistics />
         </div>
       </section>
     </>
