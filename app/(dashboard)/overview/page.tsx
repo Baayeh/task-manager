@@ -1,6 +1,7 @@
 import '@styles/overview.scss';
 import { Metadata } from 'next';
 import OverviewHeader from './components/OverviewHeader';
+import ProjectSummary from './components/ProjectSummary';
 import Statistics from './components/Statistics';
 import TaskSummary from './components/TaskSummary';
 
@@ -19,9 +20,8 @@ const Overview = () => {
         </div>
 
         <div className="col-span-4">
-          <div>Statistics</div>
-          <div>Project Summary</div>
           <Statistics />
+          <ProjectSummary />
         </div>
       </section>
     </>
