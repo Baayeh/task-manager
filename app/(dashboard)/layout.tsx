@@ -1,11 +1,12 @@
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <section id="dashboard-layout" className="relative">
-      <h1>Sidebar</h1>
-      {/* <Sidebar /> */}
+      <Sidebar />
       <main className="ml-[20%] w-[80%]">
-        {/* <Header /> */}
-        <h1>Header</h1>
+        <Header />
         {children}
       </main>
     </section>
