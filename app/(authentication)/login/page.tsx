@@ -2,8 +2,8 @@
 
 import Button from '@components/Button';
 import { ErrorMessage, Field, FieldProps, Form, Formik } from 'formik';
-// import { signIn } from 'next-auth/react';
-import { redirect, useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
@@ -29,46 +29,24 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const wait = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
   const _onSubmit = async (values: LoginFormProps) => {
     setIsLoading(true);
 
-    await wait(3000);
-    console.log(values);
-    toast.success('Logged in successfully');
+    const res = await signIn('credentials', {
+      ...values,
+      redirect: false,
+    });
+
+    if (res?.ok && !res?.error) {
+      toast.success('Logged in successfully');
+      router.push('/overview');
+    }
+
+    if (res?.error && !res?.url) {
+      toast.error(res.error);
+    }
 
     setIsLoading(false);
-    router.push('/overview');
-
-    // signIn('credentials', {
-    //   ...values,
-    //   redirect: false,
-    //   callbackUrl: '/overview',
-    // }).then((res) => {
-    //   if (res?.ok && !res?.error) {
-    //     toast.success('Logged in successfully');
-    //     router.push('/overview');
-    //     setIsLoading(false);
-    //   }
-
-    //   if (res?.error && !res?.url) {
-    //     setIsLoading(false);
-    //     toast.error(res.error);
-    //   }
-    // });
-
-    // if (response?.ok && response?.url) {
-    //   setIsLoading(false);
-    //   toast.success('Logged in successfully');
-    //   router.push(response.url);
-    // }
-
-    // if (response?.error) {
-    //   setIsLoading(false);
-    //   toast.error(response.error);
-    // }
   };
 
   return (

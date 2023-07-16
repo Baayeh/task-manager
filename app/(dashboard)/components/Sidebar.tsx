@@ -1,8 +1,11 @@
+import getCurrentUser from '@actions/getCurrentUser';
 import { SiHelpscout } from 'react-icons/si';
 import AccountBtn from './AccountBtn';
 import Navigation from './Navigation';
 
-const Sidebar = () => {
+const Sidebar = async () => {
+  const currentUser = await getCurrentUser();
+
   return (
     <section
       data-role="sidebar"
@@ -21,7 +24,7 @@ const Sidebar = () => {
       </div>
       <Navigation />
       <div className="absolute bottom-10">
-        <AccountBtn />
+        <AccountBtn currentUser={currentUser} />
       </div>
     </section>
   );

@@ -3,7 +3,7 @@
 import Button from '@components/Button';
 import axios from 'axios';
 import { ErrorMessage, Field, FieldProps, Form, Formik } from 'formik';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
@@ -31,34 +31,24 @@ const validationSchema = Yup.object({
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  // const [error, setError] = useState('');
-
-  const wait = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
 
   const _onSubmit = async (values: RegisterFormProps) => {
     setIsLoading(true);
 
-    await wait(3000);
-    console.log(values);
-    toast.success('Account created');
-    // setError('');
+    try {
+      const res = await axios.post('/api/register', values);
 
-    // try {
-    //   const res = await axios.post('/api/register', values);
-
-    //   if (res.status === 200) {
-    //     toast.success('Account created');
-    //     redirect('/overview');
-    //   } else {
-    //     const errorData = await res.data;
-    //     toast.error(errorData.error);
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error.response.data.error);
-    // }
+      if (res.status === 200) {
+        toast.success('Account created');
+        router.push('/overview');
+      } else {
+        const errorData = await res.data;
+        toast.error(errorData.error);
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.error);
+    }
     setIsLoading(false);
-    router.push('/overview');
   };
 
   return (
