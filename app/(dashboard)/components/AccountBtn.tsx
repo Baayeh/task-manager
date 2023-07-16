@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
