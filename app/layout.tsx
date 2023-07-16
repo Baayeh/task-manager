@@ -6,7 +6,7 @@ const nunito = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | TaskBuddy',
+    template: 'TaskBuddy - %s',
     default: 'TaskBuddy',
   },
   description: 'Your user friendly project management tool',
