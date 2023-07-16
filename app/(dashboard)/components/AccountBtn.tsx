@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
 import { useRef } from 'react';
-import { toast } from 'react-hot-toast';
 import { FaCaretUp } from 'react-icons/fa';
 
 interface AccountBtnProps {
