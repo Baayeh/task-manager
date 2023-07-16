@@ -29,3 +29,17 @@ ul.btn-tabs {
     }
   }
 }
+
+/**
+* Paginator
+*/
+div#project_paginator {
+  background: transparent;
+  padding: 0;
+
+  button {
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
