@@ -15,3 +15,17 @@
     scroll-behavior: smooth;
   }
 }
+
+/**
+* Tab Menu
+*/
+ul.btn-tabs {
+  li {
+    transition: all 0.3s ease-in-out;
+
+    &.active {
+      background-color: #252727;
+      color: #e5edea;
+    }
+  }
+}
