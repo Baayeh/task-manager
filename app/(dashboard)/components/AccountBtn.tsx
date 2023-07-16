@@ -1,6 +1,6 @@
 'use client';
 
-import type { User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -38,7 +38,7 @@ const AccountBtn: React.FC<AccountBtnProps> = ({ currentUser }) => {
       label: 'Logout',
       icon: 'pi pi-fw pi-power-off',
       command: async () => {
-        const res = await signOut({ redirect: false });
+        const res = await signOut({ redirect: false, callbackUrl: '/login' });
         router.push(res.url);
       },
     },
