@@ -1,11 +1,17 @@
 'use client';
 
+import { User } from '@prisma/client';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
 import { useRef } from 'react';
-import { toast } from 'react-hot-toast';
 import { FaCaretUp } from 'react-icons/fa';
+
+interface AccountBtnProps {
+  currentUser?: User | null;
+}
 
 const imageLoader = ({ src, width, quality }: ImageLoader) => {
   return `https://res.cloudinary.com/dskl0qde4/image/upload/v1683909385/${src}?w=${width}&q=${
@@ -16,8 +22,9 @@ const imageLoader = ({ src, width, quality }: ImageLoader) => {
 const blurDataURL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAQAAAAm93DmAAAAKUlEQVR42u3MwQAAAAgEsM6fIIE4g6jnBrBM16sIhUKhUCgUCoVC4c0CJuQyAeiNzJYAAAAASUVORK5CYII=';
 
-const AccountBtn = () => {
+const AccountBtn: React.FC<AccountBtnProps> = ({ currentUser }) => {
   const menu = useRef<Menu>(null);
+  const router = useRouter();
 
   const items: MenuItem[] = [
     {
@@ -30,9 +37,9 @@ const AccountBtn = () => {
     {
       label: 'Logout',
       icon: 'pi pi-fw pi-power-off',
-      command: () => {
-        console.log('Logout');
-        toast.success('Logged out successfully');
+      command: async () => {
+        const res = await signOut({ redirect: false, callbackUrl: '/login' });
+        router.push(res.url);
       },
     },
   ];
@@ -61,8 +68,8 @@ const AccountBtn = () => {
           />
         </div>
         <div className="text-start text-sm">
-          <h3>Kwasi Baayeh</h3>
-          <p className="text-xs text-gray-400">Software Developer</p>
+          <h3>{currentUser?.name}</h3>
+          <p className="text-xs text-gray-400">{currentUser?.email}</p>
         </div>
         <span>
           <FaCaretUp />
