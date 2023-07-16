@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import BoardView from './board-view/BoardView';
 import ListView from './list-view/ListView';
 
 interface TabContentProps {
@@ -11,7 +12,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTab }) => {
   return (
     <>
       {activeTab === 0 && <ListView />}
-      {/* {activeTab === 1 && <BoardView />} */}
+      {activeTab === 1 && <BoardView />}
     </>
   );
 };
