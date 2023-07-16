@@ -1,0 +1,56 @@
+div.task_card {
+  height: 6rem;
+  background-color: #e5edea;
+  color: #252727;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  transition: all 0.5s ease-in-out;
+
+  &.active {
+    height: 12rem;
+    background-color: #252727;
+    color: #e5edea;
+
+    p.task_desc {
+      display: block;
+      animation: show_desc 0.5s linear 1 alternate;
+    }
+
+    @keyframes show_desc {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.5;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    div.task_actions {
+      margin-top: 0.8rem;
+
+      div.collaborators,
+      p.time_frame {
+        display: flex;
+      }
+    }
+  }
+
+  p.task_desc {
+    display: none;
+  }
+
+  div.task_actions {
+    margin-top: 0;
+    transition: all 0.5s ease-in-out;
+
+    div.collaborators,
+    p.time_frame {
+      display: none;
+    }
+  }
+}
