@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(uuid())
+  name            String?
+  email           String?   @unique
+  emailVerified   DateTime?
+  image           String?
+  hashedPassword  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  accounts        Account[]
+  createdProjects Project[] @relation("CreatedProject")
+  createdTasks    Task[]    @relation("CreatedTask")
+  addedToProjects Project[] @relation("ProjectAddedTo")
+  addedToTasks    Task[]    @relation("TaskAddedTo")
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Project {
+  id          String        @id @default(uuid())
+  title       String        @unique
+  status      ProjectStatus @default(OPEN)
+  isPublic    Boolean       @default(false)
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  createdById String
+  createdBy   User          @relation("CreatedProject", fields: [createdById], references: [id], onDelete: Cascade)
+  tasks       Task[]        @relation("ProjectTask")
+  addedBy     User[]        @relation("ProjectAddedTo")
+}
+
+model Task {
+  id          String       @id @default(uuid())
+  title       String       @unique
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(LOW)
+  projectId   String
+  createdById String
+  createdBy   User         @relation("CreatedTask", fields: [createdById], references: [id], onDelete: Cascade)
+  project     Project      @relation("ProjectTask", fields: [projectId], references: [id], onDelete: Cascade)
+  addedBy     User[]       @relation("TaskAddedTo")
+}
+
+enum ProjectStatus {
+  OPEN
+  DONE
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
