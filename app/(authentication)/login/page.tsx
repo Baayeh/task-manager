@@ -3,7 +3,7 @@
 import Button from '@components/Button';
 import { ErrorMessage, Field, FieldProps, Form, Formik } from 'formik';
 import { signIn } from 'next-auth/react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
@@ -28,9 +28,6 @@ const validationSchema = Yup.object({
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  // const wait = (ms: number) =>
-  //   new Promise((resolve) => setTimeout(resolve, ms));
 
   const _onSubmit = async (values: LoginFormProps) => {
     setIsLoading(true);
