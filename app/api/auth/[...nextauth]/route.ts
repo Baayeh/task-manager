@@ -6,6 +6,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  pages: {
+    signIn: '/login',
+    error: '/login',
+  },
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -23,6 +27,9 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         // Handle authentication
+        try {
+        } catch (error) {}
+
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Invalid credentials');
         }
@@ -56,9 +63,6 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: 'jwt',
-  },
-  pages: {
-    signIn: '/login',
   },
   debug: process.env.NODE_ENV === 'development',
 };
