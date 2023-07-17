@@ -3,7 +3,7 @@
 import Button from '@components/Button';
 import { ErrorMessage, Field, FieldProps, Form, Formik } from 'formik';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import * as Yup from 'yup';
@@ -28,25 +28,41 @@ const validationSchema = Yup.object({
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const callback_url = searchParams.get('callbackUrl') || '/overview';
 
   const _onSubmit = async (values: LoginFormProps) => {
     setIsLoading(true);
 
-    const res = await signIn('credentials', {
+    await signIn('credentials', {
       ...values,
       redirect: false,
+      callbackUrl: callback_url,
+    }).then((res) => {
+      console.log(res);
+      setIsLoading(false);
+
+      if (res?.ok && res?.url) {
+        toast.success('Logged in successfully');
+        router.push(res.url);
+      } else if (res?.error && !res?.url) {
+        toast.error(res.error);
+      }
+
+      // if (res?.error && !res?.url) {
+      //   toast.error(res.error);
+      // }
     });
 
-    if (res?.ok && !res?.error) {
-      toast.success('Logged in successfully');
-      router.push('/overview');
-    }
+    // if (res?.ok && !res?.error) {
+    //   toast.success('Logged in successfully');
+    //   router.push('/overview');
+    // }
 
-    if (res?.error && !res?.url) {
-      toast.error(res.error);
-    }
-
-    setIsLoading(false);
+    // if (res?.error && !res?.url) {
+    //   toast.error(res.error);
+    // }
   };
 
   return (
